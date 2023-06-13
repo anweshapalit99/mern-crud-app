@@ -42,7 +42,7 @@ recordRoutes.post("/", async (req, res) => {
     date: new Date(),
   };
   let db_connect = await dbo.getDb();
-  let collection = db_connect.collection("record2");
+  let collection = db_connect.collection("record");
   let result = await collection.insertOne(newDocument);
   res.send(result).status(204);
 });
