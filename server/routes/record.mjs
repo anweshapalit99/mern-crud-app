@@ -13,16 +13,33 @@ import dbo from "../db/conn.mjs";
 const ObjectId = mongodb.ObjectId;
 
 // This section will help you get a list of all the records.
-recordRoutes.route("/record").get(async function (req, response) {
+recordRoutes.route("/").get(async function (req, res) {
   let db_connect = await dbo.getDb();
+  let collection = db_connect.collection("record");
+  let results = await collection.find({}).limit(50).toArray();
 
-  try {
-    var records = await db_connect.collection("records").find({}).toArray();
-    response.json(records);
-  } catch (e) {
-    console.log("An error occurred pulling the records. " + e);
-  }
+  res.send(results).status(200);
 });
+
+// This section will help you create a new record.
+recordRoutes.post("/", async (req, res) => {
+  let newDocument = {
+    firstName: req.body.first,
+    lastName: req.body.last,
+    avatarUrl: req.body.avatar,
+    notes: req.body.notes,
+    date: new Date(),
+  };
+  let db_connect = await dbo.getDb();
+  let collection = db_connect.collection("record");
+  let result = await collection.insertOne(newDocument);
+  /* Adding the count in the response */
+  collection.estimatedDocumentCount().then((count) => {
+    result.count = count;
+    res.status(200).send(result);
+  });
+});
+
 // This section will help you get a single record by id
 recordRoutes.route("/record/:id").get(function (req, res) {
   let db_connect = dbo.getDb();
@@ -33,29 +50,17 @@ recordRoutes.route("/record/:id").get(function (req, res) {
   });
 });
 
-// This section will help you create a new record.
-recordRoutes.post("/", async (req, res) => {
-  let newDocument = {
-    name: req.body.name,
-    position: req.body.position,
-    level: req.body.level,
-    date: new Date(),
-  };
-  let db_connect = await dbo.getDb();
-  let collection = db_connect.collection("record");
-  let result = await collection.insertOne(newDocument);
-  res.send(result).status(204);
-});
-
 // This section will help you update a record by id.
 recordRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
     $set: {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
+      firstName: req.body.first,
+      lastName: req.body.last,
+      avatarUrl: req.body.avatar,
+      notes: req.body.notes,
+      date: new Date(),
     },
   };
   db_connect
