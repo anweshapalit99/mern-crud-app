@@ -21,6 +21,7 @@ export async function postContactInfo(params) {
 }
 
 export async function fetchContactData() {
+  let _allData = null;
   await fetch("http://localhost:5000/records", {
     method: "GET",
     headers: {
@@ -29,7 +30,9 @@ export async function fetchContactData() {
   })
     .then((res) => res.json())
     .then(
-      (value) => console.log(value),
+      (value) => (_allData = value),
       (err) => console.log("Error during GET call", err)
     );
+  /* console.log("Hi there", _allData); */
+  return { data: _allData };
 }

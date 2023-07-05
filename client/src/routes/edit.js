@@ -5,6 +5,7 @@ export async function action({ request, params }) {
   let formData = await request.formData();
   //console.log("formData", formData, typeof formData);
   let intent = formData.get("intent");
+
   switch (intent) {
     case "cancel":
       return redirect("/");
@@ -70,7 +71,7 @@ export default function EditContact() {
       </div>
       <div className="flex flex-row gap-5">
         <button
-          type="submit"
+          type="post"
           name="intent"
           value="submit"
           className="bg-slate-100 py-3 px-5 text-center rounded-lg text-blue-800 hover:bg-green-800 hover:text-slate-50 border-stone-600 border-2  hover:border-slate-50"
