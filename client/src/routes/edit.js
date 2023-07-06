@@ -1,5 +1,5 @@
-import { Form, redirect } from "react-router-dom";
-import { postContactInfo } from "../utils";
+import { Form, redirect, useLoaderData } from "react-router-dom";
+import { postContactInfo } from "../services/records";
 
 export async function action({ request, params }) {
   let formData = await request.formData();
@@ -18,7 +18,7 @@ export async function action({ request, params }) {
 }
 
 export default function EditContact() {
-  const contact = {};
+  const contact = useLoaderData();
 
   return (
     <Form
@@ -33,7 +33,7 @@ export default function EditContact() {
           aria-label="First name"
           type="text"
           name="first"
-          defaultValue={contact.first}
+          defaultValue={contact.firstName}
           className="rounded-lg p-3"
           autoComplete="given-name"
         />
@@ -42,7 +42,7 @@ export default function EditContact() {
           aria-label="Last name"
           type="text"
           name="last"
-          defaultValue={contact.last}
+          defaultValue={contact.lastName}
           className="rounded-lg p-3"
           autoComplete="family-name"
         />

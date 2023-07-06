@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Outlet, NavLink, redirect, Form } from "react-router-dom";
-import { fetchContactData } from "../utils";
+import { fetchAllContactData } from "../services/records";
 
 export async function loader() {
   //const contacts = await getContacts();
@@ -40,7 +40,7 @@ export default function Root() {
   } */
 
   useEffect(() => {
-    fetchContactData().then((obj) => {
+    fetchAllContactData().then((obj) => {
       setContacts(obj.data);
       setCount(obj.data.length);
     });
@@ -119,7 +119,7 @@ export default function Root() {
                 {contacts.map((contact, index) => (
                   <li className="pb-8" key={index}>
                     <NavLink
-                      to={`contacts/${index + 1}`}
+                      to={`contacts/${contact._id}`}
                       className={({ isActive }) =>
                         isActive
                           ? "bg-violet-500 w-auto text-white mb-8"

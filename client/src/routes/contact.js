@@ -1,14 +1,13 @@
-import { Form } from "react-router-dom";
+import { Form, useLoaderData } from "react-router-dom";
+import { fetchContact } from "../services/records";
+
+export async function loader({ params }) {
+  const data = await fetchContact(params);
+  return data.contact;
+}
 
 export default function Contact() {
-  const contact = {
-    id: "6",
-    first: "Testing",
-    last: "Something",
-    avatar: "https://placekitten.com/g/200/200",
-    notes: "Some notes",
-    favorite: true,
-  };
+  const contact = useLoaderData();
 
   return (
     <div
@@ -19,16 +18,15 @@ export default function Contact() {
         <img
           className="rounded-lg relative"
           alt=""
-          key={contact.avatar}
           src={contact.avatar || null}
         />
       </div>
 
       <div className="">
         <div className="font-mono font-bold flex flex-row gap-2">
-          {contact.first || contact.last ? (
+          {contact.firstName || contact.lastName ? (
             <p>
-              {contact.first} {contact.last}
+              {contact.firstName} {contact.lastName}
             </p>
           ) : (
             <i>No Name</i>

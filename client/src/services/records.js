@@ -20,7 +20,7 @@ export async function postContactInfo(params) {
     );
 }
 
-export async function fetchContactData() {
+export async function fetchAllContactData() {
   let _allData = null;
   await fetch("http://localhost:5000/records", {
     method: "GET",
@@ -35,4 +35,16 @@ export async function fetchContactData() {
     );
   /* console.log("Hi there", _allData); */
   return { data: _allData };
+}
+
+export async function fetchContact(param) {
+  let _data = null;
+  const res = await fetch(`http://localhost:5000/records/${param.id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  _data = await res.json();
+  return { contact: _data };
 }

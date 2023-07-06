@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --primary: rebeccapurple;
+    --secondary: cornflowerblue;
+}
+
+ {
+     scrollbar-width: thin;
+     scrollbar-color: var(--secondary) var(--primary);
+ }
