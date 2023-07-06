@@ -15,7 +15,7 @@ export async function action({ request }) {
 
   switch (intent) {
     case "add_new":
-      return redirect(`/contacts/${+count + 1}/edit`);
+      return redirect(`contacts/add`);
     case "home":
       return redirect("/");
     default:

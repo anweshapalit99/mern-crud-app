@@ -6,7 +6,7 @@ function convertToJSON(param) {
 
 export async function postContactInfo(params) {
   //console.log(JSON.stringify(params), params);
-  await fetch("http://localhost:5000/records", {
+  await fetch("http://localhost:5000/records/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

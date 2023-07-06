@@ -29,6 +29,11 @@ const router = createBrowserRouter([
         loader: contactLoader,
         element: <EditContact />,
       },
+      {
+        path: "contacts/add",
+        action: editAction,
+        element: <EditContact />,
+      },
     ],
   },
 ]);
