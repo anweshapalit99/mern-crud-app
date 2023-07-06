@@ -48,3 +48,21 @@ export async function fetchContact(param) {
   _data = await res.json();
   return { contact: _data };
 }
+
+export async function updateContact(formData, param) {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/records/update/${param.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: convertToJSON(formData),
+      }
+    );
+    const val = await res.json();
+  } catch (err) {
+    console.log("Error while updating data");
+  }
+}

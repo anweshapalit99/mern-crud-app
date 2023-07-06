@@ -1,5 +1,5 @@
 import { Form, redirect, useLoaderData } from "react-router-dom";
-import { postContactInfo } from "../services/records";
+import { postContactInfo, updateContact } from "../services/records";
 
 export async function action({ request, params }) {
   let formData = await request.formData();
@@ -10,7 +10,12 @@ export async function action({ request, params }) {
     case "cancel":
       return redirect("/");
     case "submit":
-      postContactInfo(formData);
+      if (params) {
+        updateContact(formData, params);
+        return redirect(`/contacts/${params.id}`);
+      } else {
+        postContactInfo(formData);
+      }
       return null;
     default:
       return;
