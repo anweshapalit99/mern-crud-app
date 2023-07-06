@@ -21,7 +21,7 @@ recordRoutes.route("/").get(async function (req, res) {
 });
 
 // This section will help you create a new record.
-recordRoutes.post("/", async (req, res) => {
+recordRoutes.post("/add", async (req, res) => {
   let newDocument = {
     firstName: req.body.first,
     lastName: req.body.last,
