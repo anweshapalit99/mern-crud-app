@@ -13,7 +13,7 @@ let getDb = async () => {
   try {
     conn = await client.connect();
     db = conn.db("records");
-    collection = db.collection("user");
+    //collection = db.collection("user");
     return db;
   } catch (e) {
     console.error(e);

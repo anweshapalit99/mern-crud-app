@@ -1,6 +1,5 @@
 import express from "express";
-import mongodb from "mongodb";
-
+import mongodb, { ObjectId } from "mongodb";
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /record.
@@ -10,14 +9,14 @@ const recordRoutes = express.Router();
 import dbo from "../db/conn.mjs";
 
 // This help convert the id from string to ObjectId for the _id.
-const ObjectId = mongodb.ObjectId;
+//const ObjectId = new mongodb.ObjectId();
+const db_connect = await dbo.getDb();
+const collection = db_connect.collection("record");
 
 // This section will help you get a list of all the records.
 recordRoutes.route("/").get(async function (req, res) {
-  let db_connect = await dbo.getDb();
-  let collection = db_connect.collection("record");
   let results = await collection.find({}).limit(50).toArray();
-
+  //console.log(results);
   res.send(results).status(200);
 });
 
@@ -30,8 +29,6 @@ recordRoutes.post("/", async (req, res) => {
     notes: req.body.notes,
     date: new Date(),
   };
-  let db_connect = await dbo.getDb();
-  let collection = db_connect.collection("record");
   let result = await collection.insertOne(newDocument);
   /* Adding the count in the response */
   collection.estimatedDocumentCount().then((count) => {
@@ -41,13 +38,21 @@ recordRoutes.post("/", async (req, res) => {
 });
 
 // This section will help you get a single record by id
-recordRoutes.route("/record/:id").get(function (req, res) {
-  let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
-  db_connect.collection("records").findOne(myquery, function (err, result) {
-    if (err) throw err;
-    res.json(result);
-  });
+recordRoutes.route("/:id").get(function (req, res) {
+  let myquery = { _id: new ObjectId(req.params.id) };
+  //console.log(myquery);
+  collection
+    .findOne(myquery)
+    .then((result) => {
+      if (result) {
+        //console.log(`Successfully found document: ${result}.`);
+        res.status(200).send(result);
+      } else {
+        console.log("No document matches the provided query.");
+      }
+      return result;
+    })
+    .catch((err) => console.error(`Failed to find document: ${err}`));
 });
 
 // This section will help you update a record by id.
