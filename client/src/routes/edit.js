@@ -10,7 +10,7 @@ export async function action({ request, params }) {
     case "cancel":
       return redirect("/");
     case "submit":
-      if (params) {
+      if (params.id) {
         updateContact(formData, params);
         return redirect(`/contacts/${params.id}`);
       } else {
@@ -23,7 +23,7 @@ export async function action({ request, params }) {
 }
 
 export default function EditContact() {
-  const contact = useLoaderData() || {};
+  const contact = useLoaderData() || { firstName: "", lastName: "", notes: "" };
 
   return (
     <Form
@@ -38,7 +38,7 @@ export default function EditContact() {
           aria-label="First name"
           type="text"
           name="first"
-          defaultValue={contact.firstName}
+          value={contact.firstName}
           className="rounded-lg p-3"
           autoComplete="given-name"
         />
@@ -47,7 +47,7 @@ export default function EditContact() {
           aria-label="Last name"
           type="text"
           name="last"
-          defaultValue={contact.lastName}
+          value={contact.lastName}
           className="rounded-lg p-3"
           autoComplete="family-name"
         />
@@ -59,7 +59,7 @@ export default function EditContact() {
           aria-label="Avatar URL"
           type="text"
           name="avatar"
-          defaultValue={contact.avatar}
+          value={contact.avatar}
           className="rounded-lg p-3 flex-1"
           autoComplete="url"
         />
@@ -68,7 +68,7 @@ export default function EditContact() {
         <label htmlFor="notes">Notes</label>
         <textarea
           name="notes"
-          defaultValue={contact.notes}
+          value={contact.notes}
           rows={1}
           className="rounded-lg p-3 flex-1"
           autoComplete="email"
