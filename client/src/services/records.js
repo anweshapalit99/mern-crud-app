@@ -62,7 +62,26 @@ export async function updateContact(formData, param) {
       }
     );
     const val = await res.json();
+    console.log("Updated", val);
   } catch (err) {
     console.log("Error while updating data");
+  }
+}
+
+export async function deleteContact(param) {
+  try {
+    const res = await fetch(
+      `http://localhost:5000/records/delete/${param.id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const val = await res.json();
+    console.log("Deleted", val);
+  } catch (err) {
+    console.log("Error while deleting data", err);
   }
 }
