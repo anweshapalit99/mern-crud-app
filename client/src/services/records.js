@@ -15,7 +15,10 @@ export async function postContactInfo(params) {
   })
     .then((res) => res.json())
     .then(
-      (value) => console.log(value),
+      (value) => {
+        console.log(value);
+        return { id: value.insertedId };
+      },
       (err) => console.log("Error during POST call", err)
     );
 }
@@ -73,7 +76,7 @@ export async function deleteContact(param) {
     const res = await fetch(
       `http://localhost:5000/records/delete/${param.id}`,
       {
-        method: "POST",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },

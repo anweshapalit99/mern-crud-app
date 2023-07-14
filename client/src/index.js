@@ -6,7 +6,10 @@ import Root, {
   loader as rootLoader,
   action as rootAction,
 } from "./routes/root";
-import Contact, { loader as contactLoader } from "./routes/contact";
+import Contact, {
+  loader as contactLoader,
+  action as contactAction,
+} from "./routes/contact";
 import EditContact, { action as editAction } from "./routes/edit";
 import "./index.css";
 
@@ -28,6 +31,12 @@ const router = createBrowserRouter([
         action: editAction,
         loader: contactLoader,
         element: <EditContact />,
+      },
+      {
+        path: "contacts/:id/destroy",
+        action: contactAction,
+        loader: contactLoader,
+        element: <Contact />,
       },
       {
         path: "contacts/add",

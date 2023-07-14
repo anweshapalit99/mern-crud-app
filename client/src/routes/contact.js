@@ -1,5 +1,17 @@
-import { Form, useLoaderData } from "react-router-dom";
-import { fetchContact } from "../services/records";
+import { Form, redirect, useLoaderData } from "react-router-dom";
+import { fetchContact, deleteContact } from "../services/records";
+
+export async function action({ request, params }) {
+  let formData = await request.formData();
+  let intent = formData.get("intent");
+  switch (intent) {
+    case "delete":
+      deleteContact(params);
+      return redirect("/");
+    default:
+      return null;
+  }
+}
 
 export async function loader({ params }) {
   const data = await fetchContact(params);
@@ -62,6 +74,8 @@ export default function Contact() {
           >
             <button
               type="submit"
+              name="intent"
+              value="delete"
               className="bg-slate-100 py-3 px-5 text-center rounded-lg text-red-500 hover:bg-red-500 hover:text-slate-50 hover:shadow-stone-500"
             >
               Delete

@@ -15,8 +15,8 @@ export async function action({ request, params }) {
         return redirect(`/contacts/${params.id}`);
       } else {
         postContactInfo(formData);
+        return redirect("/");
       }
-      return null;
     default:
       return;
   }
@@ -38,7 +38,7 @@ export default function EditContact() {
           aria-label="First name"
           type="text"
           name="first"
-          value={contact.firstName}
+          defaultValue={contact.firstName}
           className="rounded-lg p-3"
           autoComplete="given-name"
         />
@@ -47,7 +47,7 @@ export default function EditContact() {
           aria-label="Last name"
           type="text"
           name="last"
-          value={contact.lastName}
+          defaultValue={contact.lastName}
           className="rounded-lg p-3"
           autoComplete="family-name"
         />
@@ -59,7 +59,7 @@ export default function EditContact() {
           aria-label="Avatar URL"
           type="text"
           name="avatar"
-          value={contact.avatar}
+          defaultValue={contact.avatar}
           className="rounded-lg p-3 flex-1"
           autoComplete="url"
         />
@@ -68,7 +68,7 @@ export default function EditContact() {
         <label htmlFor="notes">Notes</label>
         <textarea
           name="notes"
-          value={contact.notes}
+          defaultValue={contact.notes}
           rows={1}
           className="rounded-lg p-3 flex-1"
           autoComplete="email"
