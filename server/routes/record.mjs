@@ -66,21 +66,19 @@ recordRoutes.route("/update/:id").post(function (req, response) {
       dateUpdated: new Date(),
     },
   };
-  collection_record.updateOne(myquery, newvalues, function (err, res) {
-    if (err) throw err;
-    console.log("1 document updated");
-    response.json(res);
-  });
+  collection_record
+    .updateOne(myquery, newvalues)
+    .then((result) => response.status(200).send(result))
+    .catch((err) => console.log("Error while updating document", err));
 });
 
 // This section will help you delete a record
 recordRoutes.route("/delete/:id").delete((req, response) => {
-  let myquery = { _id: ObjectId(req.params.id) };
-  collection_record.deleteOne(myquery, function (err, obj) {
-    if (err) throw err;
-    console.log("1 document deleted");
-    response.json(obj);
-  });
+  let myquery = { _id: new ObjectId(req.params.id) };
+  collection_record
+    .deleteOne(myquery)
+    .then((result) => response.status(200).send(result))
+    .catch((err) => console.log("Error while deleting document", err));
 });
 
 export default recordRoutes;
